@@ -18,7 +18,9 @@
     "react-dom": "^18",
     "react-icons": "^5.0.1",
     "graphql": "^16.6.0",
-    "graphql-request": "^6.0.0"
+    "graphql-request": "^6.0.0",
+    "@tanstack/react-query": "^4.29.5",
+    "@tanstack/react-query-devtools": "^4.29.6"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "3.3.1",

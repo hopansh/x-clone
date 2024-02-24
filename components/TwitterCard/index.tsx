@@ -4,19 +4,18 @@ import { FaRetweet } from "react-icons/fa";
 import { AiOutlineHeart } from "react-icons/ai";
 import { FiBarChart2 } from "react-icons/fi";
 import styled from "@emotion/styled";
-import Image from "next/image";
+import Avatar from "../Avatar";
+import { Tweet } from "@/gql/graphql";
+import Link from "next/link";
 
-type TwitterCardProps = {
-  tweet: {
-    avatar: string;
-    user: string;
-    username: string;
-    tweet: string;
-    hashtags: string[];
-  };
-};
-function TwitterCard({ tweet }: TwitterCardProps) {
-  const { avatar, user, username, tweet: content, hashtags } = tweet;
+interface TwitterCardInterface {
+  data: Tweet;
+}
+const TwitterCard: React.FC<TwitterCardInterface> = (props) => {
+  const { data } = props;
+  const { author, content } = data;
+  const user = `${author?.firstName} ${author?.lastName}`;
+  const imageURL = author?.profileImageUrl;
   const Styled = styled.div`
     width: 100%;
     padding: 12px;
@@ -24,12 +23,6 @@ function TwitterCard({ tweet }: TwitterCardProps) {
     font-size: 15px;
     line-height: 20px;
     border-bottom: 1px solid rgb(47, 51, 54);
-    .avatar {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      margin-right: 8px;
-    }
     .content {
       display: flex;
       flex-direction: column;
@@ -65,26 +58,22 @@ function TwitterCard({ tweet }: TwitterCardProps) {
   return (
     <Styled>
       <div className="prefix">
-        <Image
-          className="avatar"
-          src={avatar}
-          alt="avatar"
-          width={50}
-          height={50}
-        />
+        <Link href={`/${author?.id}`} passHref>
+          <Avatar url={imageURL ?? ""} size={50} />
+        </Link>
       </div>
       <div className="content">
         <div className="user">
           <div>{user}</div>
-          <p>{username}</p>
+          {/* <p>{username}</p> */}
         </div>
         <div className="tweet">
           <span>{content}</span>
-          <div className="hashtags">
+          {/* <div className="hashtags">
             {hashtags.map((hashtag, index) => (
               <span key={index}>{hashtag} &nbsp;</span>
             ))}
-          </div>
+          </div> */}
         </div>
         <div className="actions">
           <BiMessageRounded />
@@ -96,6 +85,6 @@ function TwitterCard({ tweet }: TwitterCardProps) {
       </div>
     </Styled>
   );
-}
+};
 
 export default TwitterCard;
